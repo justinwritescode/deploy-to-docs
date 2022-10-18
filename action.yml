@@ -26,19 +26,20 @@ runs:
       env:
         REPOSITORY_NAME: ${{inputs.repository_name}}
         GITHUB_TOKEN: ${{inputs.github_token}}
-        FOLDER_NAME: ${{inputs.folder_name}}
+        # FOLDER_NAME: ${{inputs.folder_name}}
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
       run: | 
         mkdir -p "${{env.GITHUB_WORKSPACE}}";
         echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
         echo "Target folder name: ${{env.FOLDER_NAME}}"
+        echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d'/' -f2)" >> $GITHUB_ENV
       shell: bash
     - name: Clone the docs repo
       env:
         REPOSITORY_NAME: ${{inputs.repository_name}}
         GITHUB_TOKEN: ${{inputs.github_token}}
-        FOLDER_NAME: ${{inputs.folder_name}}
+        # FOLDER_NAME: ${{inputs.folder_name}}
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
       run: | 
@@ -52,7 +53,7 @@ runs:
       env:
         REPOSITORY_NAME: ${{inputs.repository_name}}
         GITHUB_TOKEN: ${{inputs.github_token}}
-        FOLDER_NAME: ${{inputs.folder_name}}
+        # FOLDER_NAME: ${{inputs.folder_name}}
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
       run: |
@@ -65,7 +66,7 @@ runs:
       env:
         REPOSITORY_NAME: ${{inputs.repository_name}}
         GITHUB_TOKEN: ${{inputs.github_token}}
-        FOLDER_NAME: ${{inputs.folder_name}}
+        # FOLDER_NAME: ${{inputs.folder_name}}
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
       run: |
