@@ -10,7 +10,9 @@ inputs:
   github_token:
     required: true
     description: The GitHub token to use to access the repository
-   
+  branch:
+    required: true
+    description: The branch of the repository to copy the docs from   
  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 runs:
@@ -43,11 +45,12 @@ runs:
       env:
         REPOSITORY_NAME: ${{inputs.repository_name}}
         GITHUB_TOKEN: ${{inputs.github_token}}
+        branch: ${{inputs.branch}}
       run: |
         echo "Target folder name: ${{env.folder_name}}";
         echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/$repo_name..."
         cd "${{env.GITHUB_WORKSPACE}}";
-        /usr/bin/git clone --single-branch --branch main "https://github.com/${{REPOSITORY_NAME}}.git" ${{env.folder_name}}; 
+        /usr/bin/git clone --single-branch --branch ${{env.branch}} "https://github.com/${{REPOSITORY_NAME}}.git" ${{env.folder_name}}; 
       shell: bash
     - name: Copy the target repo into the docs repo
       env:
