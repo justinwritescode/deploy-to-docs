@@ -26,19 +26,18 @@ runs:
       env:
         REPOSITORY_NAME: ${{ inputs.repository_name }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
+        FOLDER_NAME: ${{ inputs.folder_name }}
+        BRANCH: ${{ inputs.branch }}
       run: | 
-        echo "GITHUB_WORKSPACE: ${{env.GITHUB_WORKSPACE}}";
-        cd "${{env.GITHUB_WORKSPACE}}"
-        git config --global user.email "docs-cd@justinwritescode.com"
-        git config --global user.name "docs cd"
-        echo "folder_name=$(echo \"${{env.REPOSITORY_NAME}}\"|cut -d "/" -f 2)" >> $GITHUB_ENV";
         echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
         echo "Target folder name: ${{env.folder_name}}"
       shell: bash
     - name: Clone the docs repo
       env:
-        REPOSITORY_NAME: ${{inputs.repository_name}}
-        GITHUB_TOKEN: ${{inputs.github_token}}
+        REPOSITORY_NAME: ${{ inputs.repository_name }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        FOLDER_NAME: ${{ inputs.folder_name }}
+        BRANCH: ${{ inputs.branch }}
       run: | 
         echo "Cloning the docs repo into ${{env.GITHUB_WORKSPACE}}/docs...";
         git clone "https://github.com/justinwritescode/docs.git" docs;
@@ -46,9 +45,10 @@ runs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
     - name: Clone the target repo
       env:
-        REPOSITORY_NAME: ${{inputs.repository_name}}
-        GITHUB_TOKEN: ${{inputs.github_token}}
-        branch: ${{inputs.branch}}
+        REPOSITORY_NAME: ${{ inputs.repository_name }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        FOLDER_NAME: ${{ inputs.folder_name }}
+        BRANCH: ${{ inputs.branch }}
       run: |
         echo "Target folder name: ${{env.folder_name}}";
         echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/$repo_name..."
@@ -57,8 +57,10 @@ runs:
       shell: bash
     - name: Copy the target repo into the docs repo
       env:
-        REPOSITORY_NAME: ${{inputs.repository_name}}
-        GITHUB_TOKEN: ${{inputs.github_token}}
+        REPOSITORY_NAME: ${{ inputs.repository_name }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        FOLDER_NAME: ${{ inputs.folder_name }}
+        BRANCH: ${{ inputs.branch }}
       run: |
         rm -rf "${{env.GITHUB_WORKSPACE}}/docs/$repo_name";
         mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/$repo_name";
