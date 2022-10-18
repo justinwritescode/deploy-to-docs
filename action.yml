@@ -25,7 +25,7 @@ runs:
         cd "$GITHUB_WORKSPACE"
         git config --global user.email "docs-cd@justinwritescode.com"
         git config --global user.name "docs cd"
-        repo_name="$(echo \"$REPOSITORY_NAME\"|cut -d "/" -f 2)";
+        export repo_name="$(echo \"$REPOSITORY_NAME\"|cut -d "/" -f 2)";
         echo "Target repo owner/name: $REPOSITORY_NAME"
         echo "Cloning the docs repo into $GITHUB_WORKSPACE/docs...";
         git clone "https://github.com/justinwritescode/docs.git" docs;
