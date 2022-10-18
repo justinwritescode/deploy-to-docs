@@ -75,7 +75,6 @@ runs:
         GITHUB_WORKSPACE: "/home/runner/work"
       run: |
         cp -R "${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}/docs" "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
-        cd "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}"
         /usr/bin/git add .
         /usr/bin/git commit -m "Docs CD Deployment of ${{env.REPOSITORY_NAME}} repo"
         /usr/bin/git push -u origin HEAD:main
