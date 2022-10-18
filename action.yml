@@ -84,7 +84,7 @@ runs:
         # Do not push to repository (set to non-empty string to make dry-run)
         #dry_run: # optional, default is 
         # Working directory for clone (default: random location in `${HOME}`)
-        working_directory: "/home/runner/work/${{env.FOLDER_NAME}}" # optional, default is 
+        working_directory: "/home/runner/work/${{env.FOLDER_NAME}}/../" # optional, default is 
         # Source folder in workspace to copy if branch didnt exist (default: source_folder value)
         # initial_source_folder: # optional, default is 
         # Commit message if branch didnt exist
