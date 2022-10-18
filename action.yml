@@ -46,7 +46,7 @@ runs:
         mkdir -p "${{env.GITHUB_WORKSPACE}}/docs";
         cd "${{env.GITHUB_WORKSPACE}}";
         echo "Cloning the docs repo into ${{env.GITHUB_WORKSPACE}}/docs...";
-        git clone "https://github.com/justinwritescode/docs.git" docs;
+        git clone "https://github.com/justinwritescode/docs.git";
       shell: bash
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
     - name: Clone the target repo
@@ -64,7 +64,7 @@ runs:
         echo "Target folder name: ${{env.FOLDER_NAME}}";
         echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}..."
         cd "${{env.GITHUB_WORKSPACE}}";
-        /usr/bin/git clone --single-branch --branch ${{env.BRANCH}} "https://github.com/${{env.REPOSITORY_NAME}}.git" ${{env.FOLDER_NAME}}; 
+        /usr/bin/git clone --single-branch --branch ${{env.BRANCH}} "https://github.com/${{env.REPOSITORY_NAME}}.git"; 
       shell: bash
     - name: Copy the target repo into the docs repo
       env:
