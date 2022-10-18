@@ -21,7 +21,7 @@ runs:
     - uses: actions/checkout@v3
       with:
         repository: justinwritescode/docs
-        token: ${{inputs.token}}
+        token: ${{github.event.inputs.token}}
     - run: |
         git config --global user.email "docs-cd@justinwritescode.com"
         git config --global user.name "docs cd"
