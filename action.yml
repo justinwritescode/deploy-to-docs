@@ -17,40 +17,48 @@ runs:
   using: "composite"
     # Steps represent a sequence of tasks that will be executed as part of the job
   steps:
-    - name: Clone the docs repo
+    - name: Calculate the target repositpry name
       env:
         REPOSITORY_NAME: ${{ inputs.repository_name }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
       run: | 
-        cd "$GITHUB_WORKSPACE"
+        echo "GITHUB_WORKSPACE: ${{env.GITHUB_WORKSPACE}}";
+        cd "${{env.GITHUB_WORKSPACE}}"
         git config --global user.email "docs-cd@justinwritescode.com"
         git config --global user.name "docs cd"
-        export repo_name="$(echo \"$REPOSITORY_NAME\"|cut -d "/" -f 2)";
-        echo "Target repo owner/name: $REPOSITORY_NAME"
-        echo "Cloning the docs repo into $GITHUB_WORKSPACE/docs...";
+        echo "folder_name=$(echo \"${{env.REPOSITORY_NAME}}\"|cut -d "/" -f 2)" >> $GITHUB_ENV";
+        echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
+        echo "Target folder name: ${{env.folder_name}}"
+      shell: bash
+    - name: Clone the docs repo
+      env:
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+      run: | 
+        echo "Cloning the docs repo into ${{env.GITHUB_WORKSPACE}}/docs...";
         git clone "https://github.com/justinwritescode/docs.git" docs;
       shell: bash
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
     - name: Clone the target repo
       env:
-        REPOSITORY_NAME: ${{ inputs.repository_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
       run: |
-        echo "Target repo name: $repo_name";
-        echo "Cloning the target repo into $GITHUB_WORKSPACE/$repo_name..."
-        cd "$GITHUB_WORKSPACE";
-        /usr/bin/git clone --single-branch --branch main "https://github.com/justinwritescode/$repo_name" $repo_name; 
+        echo "Target folder name: ${{env.folder_name}}";
+        echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/$repo_name..."
+        cd "${{env.GITHUB_WORKSPACE}}";
+        /usr/bin/git clone --single-branch --branch main "https://github.com/${{REPOSITORY_NAME}}.git" ${{env.folder_name}}; 
       shell: bash
     - name: Copy the target repo into the docs repo
       env:
-        REPOSITORY_NAME: ${{ inputs.repository_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
       run: |
-        rm -rf "$GITHUB_WORKSPACE/docs/$repo_name";
-        mkdir -p "$GITHUB_WORKSPACE/docs/$repo_name";
-        cp -R "$GITHUB_WORKSPACE/$repo_name/docs" "$GITHUB_WORKSPACE/docs/$repo_name";
-        cd "$GITHUB_WORKSPACE/docs/$repo_name"
+        rm -rf "${{env.GITHUB_WORKSPACE}}/docs/$repo_name";
+        mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/$repo_name";
+        cp -R "${{env.GITHUB_WORKSPACE}}/${{env.folder_name}}/docs" "${{env.GITHUB_WORKSPACE}}/docs/${{env.folder_name}}";
+        cd "${{env.GITHUB_WORKSPACE}}/docs/${{env.folder_name}}"
         /usr/bin/git add .
-        /usr/bin/git commit -m "Docs CD Deployment of ${{github.event.inputs.repository_name}} repo"
+        /usr/bin/git commit -m "Docs CD Deployment of ${{env.REPOSITORY_NAME}} repo"
         /usr/bin/git push -u origin HEAD:main
       shell: bash
