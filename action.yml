@@ -30,7 +30,7 @@ runs:
         BRANCH: ${{ inputs.branch }}
       run: | 
         echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
-        echo "Target folder name: ${{env.folder_name}}"
+        echo "Target folder name: ${{env.FOLDER_NAME}}"
       shell: bash
     - name: Clone the docs repo
       env:
@@ -50,10 +50,10 @@ runs:
         FOLDER_NAME: ${{ inputs.folder_name }}
         BRANCH: ${{ inputs.branch }}
       run: |
-        echo "Target folder name: ${{env.folder_name}}";
-        echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/$repo_name..."
+        echo "Target folder name: ${{env.FOLDER_NAME}}";
+        echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}..."
         cd "${{env.GITHUB_WORKSPACE}}";
-        /usr/bin/git clone --single-branch --branch ${{env.branch}} "https://github.com/${{REPOSITORY_NAME}}.git" ${{env.folder_name}}; 
+        /usr/bin/git clone --single-branch --branch ${{env.BRANCH}} "https://github.com/${{env.REPOSITORY_NAME}}.git" ${{env.FOLDER_NAME}}; 
       shell: bash
     - name: Copy the target repo into the docs repo
       env:
@@ -62,10 +62,10 @@ runs:
         FOLDER_NAME: ${{ inputs.folder_name }}
         BRANCH: ${{ inputs.branch }}
       run: |
-        rm -rf "${{env.GITHUB_WORKSPACE}}/docs/$repo_name";
-        mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/$repo_name";
-        cp -R "${{env.GITHUB_WORKSPACE}}/${{env.folder_name}}/docs" "${{env.GITHUB_WORKSPACE}}/docs/${{env.folder_name}}";
-        cd "${{env.GITHUB_WORKSPACE}}/docs/${{env.folder_name}}"
+        rm -rf "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
+        mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
+        cp -R "${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}/docs" "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
+        cd "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}"
         /usr/bin/git add .
         /usr/bin/git commit -m "Docs CD Deployment of ${{env.REPOSITORY_NAME}} repo"
         /usr/bin/git push -u origin HEAD:main
