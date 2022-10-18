@@ -1,13 +1,13 @@
 # This workflow copies the docs subfolder from another repo into the docs/reponame subfolder of this repo
 name: justinwritescode docs cd
 
-  inputs:
-    repository_name:
-      required: true
-      type: string
-    token:
-      required: true
-      type: string
+inputs:
+  repository_name:
+    required: true
+    type: string
+  token:
+    required: true
+    type: string
    
 # Allow one concurrent deployment
 concurrency:
