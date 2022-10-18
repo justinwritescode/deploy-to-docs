@@ -26,12 +26,11 @@ runs:
       env:
         REPOSITORY_NAME: ${{inputs.repository_name}}
         GITHUB_TOKEN: ${{inputs.github_token}}
-        FOLDER_NAME: ${{inputs.folder_name}}
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
         GH_TOKEN: ${{inputs.github_token}}
       run: | 
-        echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d'/' -f 2)" >> $GITHUB_ENV
+        echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d '/' -f 2)" >> $GITHUB_ENV
         echo "Target folder name: ${{env.FOLDER_NAME}}"
         echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
 
