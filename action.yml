@@ -74,7 +74,7 @@ runs:
         # Personal Access Token or other https credentials
         #github_pat: # optional, default is 
         # Source folder in workspace to copy (default: workspace root)
-        source_folder: "/home/runner/work/${{env.FOLDER_NAME}}/docs" # optional, default is 
+        source_folder: "${{env.FOLDER_NAME}}/docs" # optional, default is 
         # Target folder in destination branch to copy to (default: repository root)
         target_folder: docs/${{env.FOLDER_NAME}} # optional, default is 
         # User Name <email@address> (default: [github.actor]@users.noreply.github.com)
@@ -84,143 +84,10 @@ runs:
         # Do not push to repository (set to non-empty string to make dry-run)
         #dry_run: # optional, default is 
         # Working directory for clone (default: random location in `${HOME}`)
-        working_directory: "/home/runner/work/" # optional, default is 
+        #working_directory: "/home/runner/work/" # optional, default is 
         # Source folder in workspace to copy if branch didnt exist (default: source_folder value)
         # initial_source_folder: # optional, default is 
         # Commit message if branch didnt exist
         # initial_commit_message: # optional, default is Initial commit
         # Do not delete files from the destination repository if they are not exist in source folder (set to non-empty string to skip file removing)
         # no_delete: # optional, default is 
-    # - name: Calculate the target repository name
-    #   env:
-    #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    #     GITHUB_TOKEN: ${{inputs.github_token}}
-    #     BRANCH: ${{inputs.branch}}
-    #     GITHUB_WORKSPACE: "/home/runner/work"
-    #     GH_TOKEN: ${{inputs.github_token}}
-    #   run: | 
-    #     echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d '/' -f 2)" >> $GITHUB_ENV
-    #     echo "Target folder name: ${{env.FOLDER_NAME}}"
-    #     echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
-    #   shell: bash
-
-    # - name: Checkout the docs repository
-    #   uses: actions/checkout@v2.5.0
-    #   env:
-    #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    #     GITHUB_TOKEN: ${{inputs.github_token}}
-    #     BRANCH: ${{inputs.branch}}
-    #     GITHUB_WORKSPACE: "/home/runner/work"
-    #     GH_TOKEN: ${{inputs.github_token}}
-    #   with:
-    #     # Repository name with owner. For example, actions/checkout
-    #     repository:  justinwritescode/docs # optional, default is ${{ github.repository }}
-    #     # The branch, tag or SHA to checkout. When checking out the repository that triggered a workflow, this defaults to the reference or SHA for that event.  Otherwise, uses the default branch.
-    #     ref: main # optional
-    #     # Personal access token (PAT) used to fetch the repository. The PAT is configured with the local git config, which enables your scripts to run authenticated git commands. The post-job step removes the PAT.
-    #     token: ${{inputs.github_token}} # optional, default is ${{ github.token }}
-    #     # SSH key used to fetch the repository. The SSH key is configured with the local git config, which enables your scripts to run authenticated git commands. The post-job step removes the SSH key.
-    #     #ssh-key: # optional
-    #     # Known hosts in addition to the user and global host key database. The public SSH keys for a host may be obtained using the utility `ssh-keyscan`. For example, `ssh-keyscan github.com`. The public key for github.com is always implicitly added.
-    #     #ssh-known-hosts: # optional
-    #     # Whether to perform strict host key checking. When true, adds the options `StrictHostKeyChecking=yes` and `CheckHostIP=no` to the SSH command line. Use the input `ssh-known-hosts` to configure additional hosts.
-    #     ssh-strict: # optional, default is true
-    #     # Whether to configure the token or SSH key with the local git config
-    #     persist-credentials: true # optional, default is true
-    #     # Relative path under $GITHUB_WORKSPACE to place the repository
-    #     path: ${{env.FOLDER_NAME}} # optional
-    #     # Whether to execute `git clean -ffdx && git reset --hard HEAD` before fetching
-    #     clean: true # optional, default is true
-
-    # - name: Checkout the target repository
-    #   uses: actions/checkout@v2.5.0
-    #   env:
-    #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    #     GITHUB_TOKEN: ${{inputs.github_token}}
-    #     BRANCH: ${{inputs.branch}}
-    #     GITHUB_WORKSPACE: "/home/runner/work"
-    #     GH_TOKEN: ${{inputs.github_token}}
-    #   with:
-    #     # Repository name with owner. For example, actions/checkout
-    #     repository:  ${{inputs.repository_name}} # optional, default is ${{ github.repository }}
-    #     # The branch, tag or SHA to checkout. When checking out the repository that triggered a workflow, this defaults to the reference or SHA for that event.  Otherwise, uses the default branch.
-    #     ref: ${{inputs.branch}} # optional
-    #     # Personal access token (PAT) used to fetch the repository. The PAT is configured with the local git config, which enables your scripts to run authenticated git commands. The post-job step removes the PAT.
-    #     token: ${{inputs.github_token}} # optional, default is ${{ github.token }}
-    #     # SSH key used to fetch the repository. The SSH key is configured with the local git config, which enables your scripts to run authenticated git commands. The post-job step removes the SSH key.
-    #     #ssh-key: # optional
-    #     # Known hosts in addition to the user and global host key database. The public SSH keys for a host may be obtained using the utility `ssh-keyscan`. For example, `ssh-keyscan github.com`. The public key for github.com is always implicitly added.
-    #     #ssh-known-hosts: # optional
-    #     # Whether to perform strict host key checking. When true, adds the options `StrictHostKeyChecking=yes` and `CheckHostIP=no` to the SSH command line. Use the input `ssh-known-hosts` to configure additional hosts.
-    #     ssh-strict: # optional, default is true
-    #     # Whether to configure the token or SSH key with the local git config
-    #     persist-credentials: true # optional, default is true
-    #     # Relative path under $GITHUB_WORKSPACE to place the repository
-    #     path: ${{env.FOLDER_NAME}} # optional
-    #     # Whether to execute `git clean -ffdx && git reset --hard HEAD` before fetching
-    #     clean: true # optional, default is true
-
-    # # - name: Checkout the docs repository
-    # #   env:
-    # #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    # #     GITHUB_TOKEN: ${{inputs.github_token}}
-    # #     BRANCH: ${{inputs.branch}}
-    # #     GITHUB_WORKSPACE: "/home/runner/work"
-    # #     GH_TOKEN: ${{inputs.github_token}}
-    # #   run: |
-    # #     gh auth login # --with-token;
-    # #     gh repo clone ${{env.REPOSITORY_NAME}} ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}} --branch ${{env.BRANCH}};
-    # #   shell: bash
-
-    # # - name: Checkout the target repository
-    # #   env:
-    # #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    # #     GITHUB_TOKEN: ${{inputs.github_token}}
-    # #     BRANCH: ${{inputs.branch}}
-    # #     GITHUB_WORKSPACE: "/home/runner/work"
-    # #     GH_TOKEN: ${{inputs.github_token}}
-    # #   run: |
-    # #     gh repo clone justinwritescode/docs ${{env.GITHUB_WORKSPACE}}/docs --branch main;
-    # #   shell: bash
-
-    # # - name: Setup git
-    # #   env:
-    # #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    # #     GITHUB_TOKEN: ${{inputs.github_token}}
-    # #     BRANCH: ${{inputs.branch}}
-    # #     GITHUB_WORKSPACE: "/home/runner/work"
-    # #     GH_TOKEN: ${{inputs.github_token}}
-    # #   run: |
-    # #     gh auth setup-git;
-    # #   shell: bash
-
-    # - name: Copy the docs
-    #   env:
-    #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    #     GITHUB_TOKEN: ${{inputs.github_token}}
-    #     BRANCH: ${{inputs.branch}}
-    #     GITHUB_WORKSPACE: "/home/runner/work"
-    #     GH_TOKEN: ${{inputs.github_token}}
-    #   run: |
-    #     cd ${{env.GITHUB_WORKSPACE}}/docs;
-
-    #     #git checkout 
-
-    #     rm -rf ${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}};
-    #     mkdir -p ${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}};
-    #     cp -r ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}/docs/* ${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}};
-    #   shell: bash
-
-    # - name: Commit the changes
-    #   env:
-    #     REPOSITORY_NAME: ${{inputs.repository_name}}
-    #     GITHUB_TOKEN: ${{inputs.github_token}}
-    #     BRANCH: ${{inputs.branch}}
-    #     GITHUB_WORKSPACE: "/home/runner/work"
-    #     GH_TOKEN: ${{inputs.github_token}}
-    #   run: |
-    #     cd ${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}};
-    #     git add .;
-    #     git commit -m "CD Deploy of ${{env.FOLDER_NAME}} docs";
-    #     git push;
-    #   shell: bash
