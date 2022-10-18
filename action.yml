@@ -63,7 +63,7 @@ runs:
         mkdir -p "${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}";
         echo "Target folder name: ${{env.FOLDER_NAME}}";
         echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}..."
-        cd "${{env.GITHUB_WORKSPACE}}";
+        #cd "${{env.GITHUB_WORKSPACE}}";
         #/usr/bin/git clone --single-branch --branch ${{env.BRANCH}} "https://github.com/${{env.REPOSITORY_NAME}}.git"; 
       shell: bash
     - name: Copy the target repo into the docs repo
