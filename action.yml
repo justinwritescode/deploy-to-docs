@@ -32,8 +32,8 @@ runs:
       run: | 
         mkdir -p "${{env.GITHUB_WORKSPACE}}";
         echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
+        echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d'/' -f 2)" >> $GITHUB_ENV
         echo "Target folder name: ${{env.FOLDER_NAME}}"
-        echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d'/' -f2)" >> $GITHUB_ENV
       shell: bash
     - name: Clone the docs repo
       env:
