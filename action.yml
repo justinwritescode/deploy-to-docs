@@ -55,7 +55,7 @@ runs:
         # Whether to configure the token or SSH key with the local git config
         persist-credentials: true # optional, default is true
         # Relative path under $GITHUB_WORKSPACE to place the repository
-        # path: ${{env.FOLDER_NAME}} # optional
+        path: ${{env.FOLDER_NAME}} # optional
         # Whether to execute `git clean -ffdx && git reset --hard HEAD` before fetching
         clean: true # optional, default is true
     - name: publish-artifact-to-git
