@@ -43,7 +43,7 @@ runs:
         GITHUB_WORKSPACE: "/home/runner/work"
         GH_TOKEN: ${{inputs.github_token}}
       run: |
-        gh auth login --with-token;
+        gh auth login # --with-token;
         gh repo clone ${{env.REPOSITORY_NAME}} ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}} --branch ${{env.BRANCH}};
       shell: bash
 
