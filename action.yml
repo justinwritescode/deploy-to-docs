@@ -57,17 +57,17 @@ runs:
       run: |
         gh repo clone justinwritescode/docs ${{env.GITHUB_WORKSPACE}}/docs --branch main;
       shell: bash
-      
-    - name: Setup git
-      env:
-        REPOSITORY_NAME: ${{inputs.repository_name}}
-        GITHUB_TOKEN: ${{inputs.github_token}}
-        BRANCH: ${{inputs.branch}}
-        GITHUB_WORKSPACE: "/home/runner/work"
-        GH_TOKEN: ${{inputs.github_token}}
-      run: |
-        gh auth setup-git;
-      shell: bash
+
+    # - name: Setup git
+    #   env:
+    #     REPOSITORY_NAME: ${{inputs.repository_name}}
+    #     GITHUB_TOKEN: ${{inputs.github_token}}
+    #     BRANCH: ${{inputs.branch}}
+    #     GITHUB_WORKSPACE: "/home/runner/work"
+    #     GH_TOKEN: ${{inputs.github_token}}
+    #   run: |
+    #     gh auth setup-git;
+    #   shell: bash
 
     - name: Copy the docs
       env:
