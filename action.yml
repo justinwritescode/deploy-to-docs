@@ -24,31 +24,37 @@ runs:
   steps:
     - name: Calculate the target repository name
       env:
-        REPOSITORY_NAME: ${{ inputs.repository_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-        FOLDER_NAME: ${{ inputs.folder_name }}
-        BRANCH: ${{ inputs.branch }}
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+        FOLDER_NAME: ${{inputs.folder_name}}
+        BRANCH: ${{inputs.branch}}
+        GITHUB_WORKSPACE: "/home/runner/work"
       run: | 
+        mkdir -p "${{env.GITHUB_WORKSPACE}}";
         echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
         echo "Target folder name: ${{env.FOLDER_NAME}}"
       shell: bash
     - name: Clone the docs repo
       env:
-        REPOSITORY_NAME: ${{ inputs.repository_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-        FOLDER_NAME: ${{ inputs.folder_name }}
-        BRANCH: ${{ inputs.branch }}
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+        FOLDER_NAME: ${{inputs.folder_name}}
+        BRANCH: ${{inputs.branch}}
+        GITHUB_WORKSPACE: "/home/runner/work"
       run: | 
+        mkdir -p "${{env.GITHUB_WORKSPACE}}/docs";
+        cd "${{env.GITHUB_WORKSPACE}}";
         echo "Cloning the docs repo into ${{env.GITHUB_WORKSPACE}}/docs...";
         git clone "https://github.com/justinwritescode/docs.git" docs;
       shell: bash
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
     - name: Clone the target repo
       env:
-        REPOSITORY_NAME: ${{ inputs.repository_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-        FOLDER_NAME: ${{ inputs.folder_name }}
-        BRANCH: ${{ inputs.branch }}
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+        FOLDER_NAME: ${{inputs.folder_name}}
+        BRANCH: ${{inputs.branch}}
+        GITHUB_WORKSPACE: "/home/runner/work"
       run: |
         echo "Target folder name: ${{env.FOLDER_NAME}}";
         echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}..."
@@ -57,10 +63,11 @@ runs:
       shell: bash
     - name: Copy the target repo into the docs repo
       env:
-        REPOSITORY_NAME: ${{ inputs.repository_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
-        FOLDER_NAME: ${{ inputs.folder_name }}
-        BRANCH: ${{ inputs.branch }}
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+        FOLDER_NAME: ${{inputs.folder_name}}
+        BRANCH: ${{inputs.branch}}
+        GITHUB_WORKSPACE: "/home/runner/work"
       run: |
         rm -rf "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
         mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
