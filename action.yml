@@ -57,6 +57,10 @@ runs:
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
       run: |
+        rm -rf "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
+        mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
+        rm -rf "${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}";
+        mkdir -p "${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}";
         echo "Target folder name: ${{env.FOLDER_NAME}}";
         echo "Cloning the target repo into ${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}..."
         cd "${{env.GITHUB_WORKSPACE}}";
@@ -70,8 +74,6 @@ runs:
         BRANCH: ${{inputs.branch}}
         GITHUB_WORKSPACE: "/home/runner/work"
       run: |
-        rm -rf "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
-        mkdir -p "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
         cp -R "${{env.GITHUB_WORKSPACE}}/${{env.FOLDER_NAME}}/docs" "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}";
         cd "${{env.GITHUB_WORKSPACE}}/docs/${{env.FOLDER_NAME}}"
         /usr/bin/git add .
