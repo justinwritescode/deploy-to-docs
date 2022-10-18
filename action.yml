@@ -1,0 +1,76 @@
+# This workflow copies the docs subfolder from another repo into the docs/reponame subfolder of this repo
+
+name: justinwritescode docs cd
+description: This workflow copies the docs subfolder from another repo into the docs/reponame subfolder of this repo
+
+inputs:
+  repository_name:
+    required: true
+    description: The name of the repository to copy the docs from
+  folder_name:
+    required: true
+    description: The name of the folder to copy the docs to
+  github_token:
+    required: true
+    description: The GitHub token to use to access the repository
+  branch:
+    required: true
+    description: The branch of the repository to copy the docs from   
+ 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+runs:
+  using: "composite"
+    # Steps represent a sequence of tasks that will be executed as part of the job
+  steps:
+    - name: Calculate the target repository name
+      env:
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+        BRANCH: ${{inputs.branch}}
+        GITHUB_WORKSPACE: "/home/runner/work"
+        GH_TOKEN: ${{inputs.github_token}}
+      run: | 
+        echo "FOLDER_NAME=$(echo '${{env.REPOSITORY_NAME}}'|cut -d '/' -f 2)" >> $GITHUB_ENV
+        echo "Target folder name: ${{env.FOLDER_NAME}}"
+        echo "Target repo owner/name: ${{env.REPOSITORY_NAME}}"
+      shell: bash
+    - name: Checkout the target repository
+      uses: actions/checkout@v2.5.0
+      env:
+        REPOSITORY_NAME: ${{inputs.repository_name}}
+        GITHUB_TOKEN: ${{inputs.github_token}}
+        BRANCH: ${{inputs.branch}}
+        GITHUB_WORKSPACE: "/home/runner/work"
+        GH_TOKEN: ${{inputs.github_token}}
+      with:
+        # Repository name with owner. For example, actions/checkout
+        repository:  ${{inputs.repository_name}} # optional, default is ${{ github.repository }}
+        # The branch, tag or SHA to checkout. When checking out the repository that triggered a workflow, this defaults to the reference or SHA for that event.  Otherwise, uses the default branch.
+        ref: ${{inputs.branch}} # optional
+        # Personal access token (PAT) used to fetch the repository. The PAT is configured with the local git config, which enables your scripts to run authenticated git commands. The post-job step removes the PAT.
+        token: ${{inputs.github_token}} # optional, default is ${{ github.token }}
+        # Whether to configure the token or SSH key with the local git config
+        persist-credentials: true # optional, default is true
+        # Relative path under $GITHUB_WORKSPACE to place the repository
+        path: ${{env.FOLDER_NAME}} # optional
+        # Whether to execute `git clean -ffdx && git reset --hard HEAD` before fetching
+        clean: true # optional, default is true
+    - name: publish-artifact-to-git
+      # You may pin to the exact commit or the version.
+      # uses: SpinyOwl/publish-artifact-to-git@a880fb22a2ea9dd1fc4fc4a1eb15a1833ac9a39c
+      uses: SpinyOwl/publish-artifact-to-git@1.0.1
+      with:
+        # Destination repository (default: current repository)
+        repository: justinwritescode/docs # optional, default is 
+        # Destination branch
+        branch: main
+        # GitHub Token (use `secrets.GITHUB_TOKEN`)
+        github_token: ${{inputs.github_token}}
+        # Source folder in workspace to copy (default: workspace root)
+        source_folder: "${{env.FOLDER_NAME}}/docs" # optional, default is 
+        # Target folder in destination branch to copy to (default: repository root)
+        target_folder: docs/${{env.FOLDER_NAME}} # optional, default is 
+        # User Name <email@address> (default: [github.actor]@users.noreply.github.com)
+        commit_author: docs-cd@justinwritescode.com # optional, default is 
+        # Commit message (default: [workflow] Publish from [repository]:[branch]/[folder])
+        commit_message: "Docs CD" # optional, default is 
