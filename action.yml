@@ -7,6 +7,9 @@ inputs:
   repository_name:
     required: true
     description: The name of the repository to copy the docs from
+  folder_name:
+    required: true
+    description: The name of the folder to copy the docs to
   github_token:
     required: true
     description: The GitHub token to use to access the repository
@@ -19,7 +22,7 @@ runs:
   using: "composite"
     # Steps represent a sequence of tasks that will be executed as part of the job
   steps:
-    - name: Calculate the target repositpry name
+    - name: Calculate the target repository name
       env:
         REPOSITORY_NAME: ${{ inputs.repository_name }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
