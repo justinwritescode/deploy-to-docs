@@ -69,7 +69,7 @@ runs:
         # Source folder in workspace to copy (default: workspace root)
         source_folder: "${{env.FOLDER_NAME}}/docs" # optional, default is 
         # Target folder in destination branch to copy to (default: repository root)
-        target_folder: docs/${{env.FOLDER_NAME}} # optional, default is 
+        target_folder: src/${{env.FOLDER_NAME}} # optional, default is 
         # User Name <email@address> (default: [github.actor]@users.noreply.github.com)
         commit_author: docs-cd@justinwritescode.com # optional, default is 
         # Commit message (default: [workflow] Publish from [repository]:[branch]/[folder])
